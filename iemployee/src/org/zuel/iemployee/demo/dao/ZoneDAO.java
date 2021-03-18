@@ -18,4 +18,6 @@ public interface ZoneDAO {
     Zone selectZoneById(int id);
 
     Zone selectZoneByName(String name);
+    
+    List<Zone> selectAllZone();
 }
