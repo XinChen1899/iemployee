@@ -134,4 +134,31 @@ public class ZoneDAOImpl implements ZoneDAO {
         sql = "SELECT * FROM Zone WHERE name = \'" + name +'\'';
         return selectOneZone();
     }
+    
+        @Override
+    public List<Zone> selectAllZone(){
+        sql = "SELECT * FROM ZONE";
+        Zone zone = new Zone();
+        List<Zone> zoneList = new LinkedList<Zone>();
+        try{
+            pst = conn.prepareStatement(sql);
+            result = pst.executeQuery();
+            while(result.next()){
+                zone.setId(result.getInt(1));
+                zone.setName(result.getString(2));
+                zone.setRemark(result.getString(3));
+                zone.setPostNum(result.getInt(4));
+                zone.setHotPost(result.getString(5));
+                zone.setCreateTime(FormatFactory.SqlDateToLocalDateTime(result.getDate(6)));
+                zone.setUpdateTime(FormatFactory.SqlDateToLocalDateTime(result.getDate(7)));
+                zone.setDeleted(result.getBoolean(8));
+                zoneList.add(zone);
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        } finally {
+            release(result, pst);
+        }
+        return zoneList;
+    }
 }
