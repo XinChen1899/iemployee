@@ -163,4 +163,25 @@ public class PostService {
         }
         return ResponseUtil.ok("修改成功", post);
     }
+    
+    /**
+     * 查找某分区的热门帖子
+     * @param hotPost
+     * @param postList
+     * @return
+     */
+    public static ResponseObj searchPostByHotPost(int[] hotPost, List<Post> postList){
+        if(hotPost == null){
+            return ResponseUtil.badArgument();
+        }
+        Post post;
+        for(int i = 0; i < 10; i++){
+            post = postDAO.selectPostById(hotPost[i]);
+            postList.add(post);
+        }
+        if(postList == null){
+            return ResponseUtil.ok("操作成功，但似乎没有符合的帖子", null);
+        }
+        return ResponseUtil.ok("操作成功", postList);
+    }
 }
